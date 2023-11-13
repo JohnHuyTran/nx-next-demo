@@ -9,9 +9,19 @@ const { composePlugins, withNx } = require('@nx/next');
 const nextConfig = {
   nx: {
     // Set this to true if you would like to use SVGR
-    // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  webpack: (
+    config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+  ) => {
+    // Enable caching for static assets
+    config.cache = {
+      type: 'filesystem',
+      cacheDirectory: '.next/cache' || '.next/cacheJest',
+
+    };
+    return config;
+  }
 };
 
 const plugins = [
